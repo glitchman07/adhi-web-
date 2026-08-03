@@ -6,6 +6,15 @@
   <meta name="description" content="ADHITHYA J — Web Developer, Bug Bounty Hunter & Freelancer. Building secure web apps and automation tools." />
   <meta name="theme-color" content="#fcfbf9" />
   <title>ADHITHYA J — Web Developer & Bug Bounty Hunter</title>
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ADHITHYA J — Web Developer & Bug Bounty Hunter" />
+  <meta property="og:description" content="Building secure web apps and automation tools. Web Developer, Bug Bounty Hunter & Freelancer." />
+  <meta property="og:url" content="https://adhithya-dev.com" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ADHITHYA J — Web Developer & Bug Bounty Hunter" />
+  <meta name="twitter:description" content="Building secure web apps and automation tools." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23b8944c'/><text x='50' y='72' font-size='58' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23ffffff'>A</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,6 +46,37 @@
       --radius-lg: 20px;
       --max-width: 1120px;
       --nav-height: 68px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1712;
+      --bg-alt: #211d17;
+      --surface: #26221b;
+      --text: #f1ece2;
+      --text-secondary: #b8ae9d;
+      --text-muted: #7d7364;
+      --accent: #d4af6a;
+      --accent-light: #8a6e32;
+      --accent-dark: #e8d5a8;
+      --border: #37311f;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.3), 0 10px 15px rgba(0,0,0,0.4);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.35), 0 20px 40px rgba(0,0,0,0.3);
+    }
+    [data-theme="dark"] .hero {
+      background: linear-gradient(180deg, #1a1712 0%, #1d1a14 50%, #201c15 100%);
+    }
+    [data-theme="dark"] .hero::before {
+      background-image: radial-gradient(circle at 1px 1px, rgba(212, 175, 106, 0.08) 1px, transparent 0);
+    }
+    [data-theme="dark"] .btn-primary,
+    [data-theme="dark"] .social-links a:hover,
+    [data-theme="dark"] .back-to-top:hover {
+      color: #1a1712;
+    }
+    body, .nav-logo, .hero, .btn, .service-card, .skill-pill, .tag,
+    .contact-form input, .contact-form textarea, .social-links a, .back-to-top {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     html {
@@ -117,6 +157,43 @@
     .nav-links a:hover::after {
       width: 100%;
     }
+    .nav-links a.active {
+      color: var(--text);
+    }
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent-light);
+    }
+    .theme-toggle svg {
+      width: 17px;
+      height: 17px;
+    }
+    .theme-toggle .icon-moon { display: block; }
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
     .hamburger {
       display: none;
       flex-direction: column;
@@ -666,6 +743,46 @@
       font-size: 0.82rem;
     }
 
+    /* ─── Accessibility: visible keyboard focus ─── */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ─── Respect reduced-motion preference ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ─── Responsive: small laptops / tablets (900px) ─── */
+    @media (max-width: 900px) {
+      .nav-links {
+        gap: 24px;
+      }
+      .about-grid {
+        gap: 40px;
+      }
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .contact-grid {
+        gap: 40px;
+      }
+    }
+
     /* ─── Responsive ─── */
     @media (max-width: 768px) {
       .nav-links {
@@ -766,9 +883,15 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- ─── Hero ─── -->
@@ -1049,6 +1172,32 @@
   </footer>
 
   <script>
+    // ─── Dark mode toggle ───
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const savedTheme = localStorage.getItem('theme');
+    function syncThemeColorMeta() {
+      themeColorMeta.setAttribute('content', root.getAttribute('data-theme') === 'dark' ? '#1a1712' : '#fcfbf9');
+    }
+    // Light mode is always the default first impression.
+    // Dark mode only applies if the visitor explicitly picked it before.
+    if (savedTheme === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+    }
+    syncThemeColorMeta();
+    themeToggle.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        root.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      syncThemeColorMeta();
+    });
+
     // ─── Nav scroll effect ───
     const navbar = document.getElementById('navbar');
     const backToTop = document.getElementById('backToTop');
@@ -1070,6 +1219,23 @@
         navLinks.classList.remove('open');
       });
     });
+
+    // ─── Nav active-link on scroll (scroll-spy) ───
+    const sections = document.querySelectorAll('section[id]');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+    const spyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navAnchors.forEach((a) => {
+              a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`);
+            });
+          }
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px' }
+    );
+    sections.forEach((s) => spyObserver.observe(s));
 
     // ─── Scroll Reveal ───
     const revealEls = document.querySelectorAll('.reveal');
